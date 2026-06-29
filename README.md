@@ -5,170 +5,146 @@
 **Horizon Casting by Ombre & Pixel**  
 Bilingual SaaS platform for artists, actors (including child actors and voice actors), and creatives to build rich, discoverable profiles for casting directors, productions, and photographers.
 
-**OpenClaw** — Self-hosted persistent AI agent infrastructure with multi-role orchestration and compound learning loops.
-
-This repository provides a transparent, detailed view of the architecture, compliance posture, technical decisions, and agentic development systems behind the private production codebase. It is prepared specifically to demonstrate end-to-end full-stack engineering, production-grade deployment, privacy-first design, and real-world agentic systems building in the context of an application for the **Full Stack Engineer** role at **Nous Research**.
+This repository provides a transparent view of the architecture, compliance posture, technical decisions, and agentic development systems behind the private production codebase. It is prepared to demonstrate end-to-end full-stack engineering, production deployment, privacy-first design, and high-agency shipping in the context of an application for the **Full Stack Engineer** role at **Nous Research**.
 
 ---
 
-## Why This Work Aligns with Nous Research
+## Alignment with Nous Research Full Stack Engineer Role
 
-Nous Research builds open-source, humanistic AI with a focus on powerful agents (Hermes) that feature self-improving learning loops, persistent memory, skill creation from experience, and seamless local/cloud model routing. The Full Stack Engineer role owns software end-to-end — from managed inference and platform infrastructure to agent UX and developer APIs — while shipping user-facing products like Nous Portal and Hermes Agent.
+The role requires owning software end-to-end across stacks — from managed inference services and platform infrastructure to agent UX and developer-facing APIs — while shipping user-facing products (Nous Portal, Hermes Agent) and solving hard technical problems with rigorous testing.
 
-My work directly parallels and operationalizes these priorities:
+This body of work maps directly:
 
-- **Agentic Systems & Tool-Calling Loops**: OpenClaw is a production daily-driver persistent agent system with explicit role-based orchestration (Chief Orchestrator, Coding Architect, etc.), long-term memory, and structured compound engineering loops. This mirrors Hermes Agent's core architecture of self-improvement, persistence, and multi-provider intelligence.
-- **End-to-End Full-Stack Ownership**: Complete ownership of a production SaaS platform including frontend (Next.js), backend services, media pipelines, payments, deployment infrastructure, security, and compliance — exactly the broad-scope, high-leverage responsibility described in the role.
-- **Privacy & Security by Design**: Handling highly sensitive personal visual and identity data (photos, videos, profiles of actors including minors) under Quebec Law 25 (full PIA + Transfer Impact Assessment), PIPEDA, and GDPR. This is the exact posture required for trustworthy AI products that process user data.
-- **High-Agency Execution & AI-Augmented Velocity**: Solo development of a complex, regulated MVP with intense output through structured multi-model AI workflows (millions of tokens across frontier models) while maintaining architectural integrity and shipping real users.
-- **Production Infrastructure**: Self-hosting on consumer GPU hardware (RTX 5070), Dockerized agents, Coolify PaaS, Hetzner EU hosting for data residency, Cloudflare — practical experience with the managed inference and platform layers central to Nous products.
+- **End-to-end production ownership**: Complete architecture and delivery of a live SaaS platform including frontend, backend services, media pipelines, payments, deployment, security, and compliance under real regulatory constraints.
+- **Agentic systems & infrastructure**: Heavy daily user of Hermes for agentic workflows, development acceleration, and product intelligence features. Built complementary self-hosted orchestration patterns and tool-calling layers that integrate with Hermes and similar systems.
+- **Privacy & security posture**: Production implementation of strict controls for sensitive personal media and identity data (Quebec Law 25 PIA + Transfer Impact Assessment, PIPEDA, GDPR) — directly relevant to building trustworthy AI products.
+- **High-agency execution & velocity**: Solo shipping of complex MVP with intense output through structured AI-augmented workflows while maintaining quality and compliance.
+- **Platform & deployment experience**: Self-hosted PaaS (Coolify), EU VPS with data residency, CDN, Dockerized services, and security hardening — practical experience with the infrastructure layers central to Nous products.
 
-I bring not just code, but lived experience building the class of systems Nous is productizing at scale.
+I bring not only code, but demonstrated ability to own broad-scope systems, ship interfaces users love, embed testing, and operate with the curiosity and self-motivation the role demands.
 
 ---
 
-## Project Overview: Horizon Casting (Ombre & Pixel)
+## Project Overview
 
-Horizon Casting enables creative professionals to create compelling, searchable profiles that connect them with opportunities. Key capabilities include rich media support (photos, videos, voice), semantic discovery features for casting directors, tiered subscriptions, and a privacy-respecting architecture suitable for sensitive personal data including that of child actors.
+Horizon Casting enables creative professionals to create compelling, searchable profiles that connect them with opportunities in film, television, photography, and related fields. Core capabilities include rich media support (photos, videos, voice), semantic discovery features for casting professionals, tiered subscriptions, and a privacy-respecting architecture suitable for sensitive personal data including that of child actors.
 
-**Status**: MVP live in production with initial users; active iteration toward 500–1000 users. Bilingual (English/French) UX prioritized from the start.
+**Status**: MVP live in production with initial users; active iteration toward hundreds of profiles. Bilingual (English/French) UX delivered from day one.
 
 ---
 
 ## High-Level Architecture
 
 ```mermaid
-graph TD
-    subgraph "User-Facing Layer"
-        Users[Casting Directors / Productions / Photographers]
-        Actors[Artists & Actors \n(incl. child actors, voice actors)]
+flowchart TD
+    subgraph Frontend
+        NextJS[Next.js Frontend<br/>TypeScript • Responsive • Bilingual UX]
     end
 
-    subgraph "Frontend"
-        NextJS[Next.js Frontend\nTypeScript, Responsive, Bilingual UX]
+    subgraph Backend
+        Laravel[Laravel Backend<br/>APIs • Auth • Business Logic]
     end
 
-    subgraph "Backend & Services"
-        Laravel[Laravel Backend\nPHP, APIs, Auth, Business Logic]
+    subgraph Data & Services
         Postgres[(PostgreSQL)]
-        Cloudinary[Cloudinary\nSigned uploads, transformations, delivery]
-        Stripe[Stripe\nSubscriptions + Tax]
-        Resend[Resend\nTransactional Email]
+        Cloudinary[Cloudinary<br/>Signed Media Pipelines]
+        Stripe[Stripe<br/>Subscriptions + Tax]
+        Resend[Resend<br/>Transactional Email]
     end
 
-    subgraph "Agentic Infrastructure"
-        OpenClaw[OpenClaw Persistent Agent\nDocker on RTX 5070\nMulti-Role Orchestration]
-        MultiLLM[Multi-Provider Routing\nOpenRouter + Local Models]
+    subgraph Agentic Layer
+        Hermes[Hermes Agent<br/>Daily driver for workflows & features]
+        Complementary[Complementary Orchestration<br/>& Tool-calling Patterns]
     end
 
-    subgraph "Deployment & Platform"
+    subgraph Platform
         Coolify[Coolify Self-Hosted PaaS]
-        Hetzner[Hetzner Helsinki\nEU Data Residency]
+        Hetzner[Hetzner Helsinki<br/>EU Data Residency]
         Cloudflare[Cloudflare CDN & Security]
     end
 
-    Actors -->|Profile Creation & Media Upload| NextJS
-    Users -->|Search & Discovery| NextJS
-    NextJS -->|REST/GraphQL APIs| Laravel
-    Laravel -->|Data| Postgres
-    Laravel -->|Media Pipeline| Cloudinary
-    Laravel -->|Billing Webhooks| Stripe
-    Laravel -->|Notifications| Resend
-    OpenClaw -->|Development Acceleration & Tool Calls| MultiLLM
-    Coolify -->|Hosts & Orchestrates| Laravel
-    Coolify -->|Hosts| OpenClaw
-    Hetzner & Cloudflare -->|Infrastructure| Coolify
+    Users[Actors & Casting Directors] --> NextJS
+    NextJS --> Laravel
+    Laravel --> Postgres
+    Laravel --> Cloudinary
+    Laravel --> Stripe
+    Laravel --> Resend
+    Laravel --> Hermes
+    Hermes --> Complementary
+    Coolify --> Laravel
+    Coolify --> Hermes
+    Hetzner & Cloudflare --> Coolify
 ```
 
-**Data Flow Highlights**:
-- Sensitive media and profile data flows through encrypted, signed channels with strict access controls.
-- Compliance boundaries enforced at every layer (minimization, consent, residency, auditability).
-- Agentic layer operates orthogonally for development velocity while production systems remain deterministic and auditable.
+**Key Flows**:
+- Actors create and manage rich profiles with secure media uploads and transformations.
+- Casting directors discover talent via semantic search and structured profiles.
+- All sensitive data paths enforce encryption, consent, minimization, and residency controls.
+- Agentic layer accelerates both development velocity and product intelligence features while remaining auditable.
 
 ---
 
-## Compliance & Privacy Architecture (Quebec Law 25, PIPEDA, GDPR)
+## Compliance & Privacy Architecture
 
-This is one of the most critical aspects of the system and directly relevant to building trustworthy AI products.
+One of the most critical and transferable aspects of this system.
 
-- **Privacy Impact Assessment (PIA)** conducted for Quebec Law 25, including Transfer Impact Assessment for any cross-border elements.
-- Data minimization by design: only essential fields collected; media handling prioritizes external links where possible, with Cloudinary upsell for premium rich media.
-- Explicit consent flows, granular permissions, and clear data subject rights implementation.
-- EU hosting (Hetzner Helsinki) chosen for strong data residency alignment.
-- Encryption in transit and at rest; secure signed URLs for media delivery.
-- Audit logging and access controls suitable for sensitive personal data including that of minors.
-- Bilingual consent and privacy policy language.
+- Full Privacy Impact Assessment (PIA) and Transfer Impact Assessment executed for Quebec Law 25 on sensitive visual and identity data (including minors).
+- Data minimization by design: only essential information collected; media strategy prioritizes verifiable external links (YouTube, Vimeo) with optional premium Cloudinary rich media.
+- Explicit consent flows, granular access controls, and clear implementation of data subject rights.
+- EU hosting (Hetzner Helsinki) selected for strong data residency alignment.
+- Encryption in transit and at rest; signed URLs and secure delivery for all media.
+- Audit logging and role-based controls suitable for production use with sensitive personal data.
+- Bilingual privacy policy and consent language.
 
-This experience gives me practical, production-level understanding of the regulatory and architectural requirements for any system handling personal media or identity data at scale — a foundation for responsible AI tooling.
-
----
-
-## OpenClaw: Persistent Self-Hosted AI Agent Infrastructure
-
-OpenClaw is my daily-driver implementation of a persistent, self-improving agent system running locally on consumer hardware (Pop!_OS 24.04 + RTX 5070 12GB).
-
-**Core Capabilities**:
-- **Multi-Role Orchestration**: Explicit agent roles including Chief Orchestrator and Coding Architect that delegate, review, and iterate on complex tasks.
-- **Persistent Memory & Context**: Cross-session recall, project memory, and user modeling patterns.
-- **Compound Engineering Loops**: Structured iterative workflows combining frontier models (GPT-5.5 class, Claude, DeepSeek, GLM, Kimi, etc.) with tool-calling and verification steps. This has enabled burning millions of tokens while shipping high-quality production features in compressed timeframes.
-- **Tool Integration**: Deep integration with coding environments (KiloCode, Cursor), Discord for notifications/collaboration, and local inference where beneficial.
-- **Multi-Provider Routing**: Patterns consistent with OpenRouter and Nous-style ecosystems — choosing the right model for cost, speed, capability, and privacy.
-
-**Relevance to Hermes Agent**: OpenClaw embodies the same principles Nous has productized — persistent agents that learn, maintain memory, create and refine capabilities over time, and operate reliably as infrastructure rather than one-off sessions. Running it daily on real work gives me intimate, practical insight into the UX, reliability, and orchestration challenges of such systems.
+This experience provides practical, production-level insight into the regulatory and architectural requirements for any system processing personal media or identity data — a direct foundation for responsible AI tooling and platforms.
 
 ---
 
-## Development Methodology & Velocity
+## Agentic Layer & Development Workflows
 
-The intense development of Horizon Casting (major activity May 2026 onward, MVP shipped with users live) was accelerated by treating AI as a force multiplier through compound loops and agent swarms rather than simple prompting. This meta-layer of agentic development is itself a core skill for building the next generation of AI products.
+I am a heavy daily user of **Hermes** for agentic workflows, development acceleration, and product features. Hermes powers structured loops for complex engineering tasks, persistent context across sessions, and intelligent routing across models.
 
-Outcomes include rapid iteration on complex features (media pipelines, compliance architecture, billing, semantic matching) while maintaining clean architecture and shipping to real users under regulatory constraints.
+I have also built complementary self-hosted orchestration patterns and tool-calling layers (lightweight elements drawing from patterns similar to OpenClaw) that integrate seamlessly with Hermes and other agent frameworks. These patterns enable reliable multi-step workflows, verification steps, and high-leverage solo execution while staying aligned with the self-improving, persistent agent philosophy that Hermes exemplifies.
+
+This combination gives me intimate, practical experience with the exact capabilities Nous has productized: persistent memory, skill refinement through use, multi-provider intelligence, and agents that function as dependable infrastructure rather than one-off interactions.
 
 ---
 
 ## Technical Decisions & Tradeoffs
 
-- **Why Next.js + Laravel?** Next.js for modern, type-safe, performant frontend with excellent developer experience and SEO/UX capabilities. Laravel chosen for rapid, secure backend development with mature ecosystem for auth, queues, APIs, and business logic — pragmatic choice enabling solo velocity on a regulated product. Equivalent patterns transfer directly to Python/Node/Rust stacks.
-- **Media Strategy**: Hybrid approach — prioritize verifiable external links (YouTube, Vimeo) for core profiles to control costs and complexity; Cloudinary for premium rich media (photos, videos, voice). Signed uploads and transformations ensure security and performance.
-- **Deployment**: Coolify on Hetzner provides self-hosted PaaS control and EU residency without vendor lock-in. Cloudflare adds global CDN, DDoS protection, and caching.
-- **Compliance-First Design**: Regulatory requirements shaped data models, hosting choices, consent UX, and logging from day one rather than bolted on later.
+- **Stack choice (Next.js + Laravel)**: Next.js delivers modern type-safe frontend development, excellent UX/SEO capabilities, and strong component patterns. Laravel was selected for rapid, secure backend iteration with a mature ecosystem for auth, queues, APIs, and business logic — enabling high solo velocity on a regulated product. Core patterns (API design, media handling, compliance boundaries, deployment) transfer directly to Python, Node.js, or Rust stacks.
+- **Media handling strategy**: Hybrid approach that prioritizes external links for core profiles (cost control, simplicity, verifiability) while offering premium Cloudinary pipelines for rich media. Signed uploads and transformations ensure security and performance.
+- **Deployment & residency**: Coolify on Hetzner Helsinki provides self-hosted PaaS control, EU data residency, and avoidance of vendor lock-in. Cloudflare layers global CDN, caching, and additional security.
+- **Compliance-first design**: Regulatory requirements shaped data models, hosting geography, consent UX, logging, and access controls from the first iteration rather than as retrofits.
+- **Agentic acceleration**: Structured use of Hermes plus complementary orchestration delivers outsized output without sacrificing architectural integrity or auditability.
 
 ---
 
-## Production Status & Metrics
+## Production Outcomes
 
-- MVP fully deployed and live (horizoncasting.studio)
-- Initial paying/ active users achieved; clear growth path to hundreds of profiles
-- Complete compliance implementation (PIA artifacts, policies, technical controls)
-- Production observability, automated backups, security hardening in place
-- Bilingual experience delivered end-to-end
-
----
-
-## Repository Purpose & Future Content
-
-This public repository serves as a living portfolio. Current content focuses on architecture and rationale. Future additions (as non-sensitive elements are extracted) may include:
-- Detailed decision records (ADRs)
-- Sanitized architecture diagrams and data flow maps
-- Compliance implementation notes (high-level)
-- Screenshots and walkthroughs of key UX flows
-- OpenClaw configuration patterns and orchestration examples (where shareable)
-
-Screenshots and visuals to be added by owner.
+- Complete MVP shipped and live (horizoncasting.studio) with real initial users and clear growth path.
+- Full compliance implementation delivered (PIA artifacts, technical controls, policies) from the ground up.
+- Production-grade deployment with security hardening, automated backups, observability, and CDN.
+- Bilingual experience and semantic discovery features operational.
+- Intense development velocity achieved through Hermes-powered compound workflows while shipping under regulatory and media-complexity constraints.
 
 ---
 
-## Contact & Next Steps
+## Repository Purpose
 
-The core production codebase remains private for IP and operational reasons. I am fully prepared to provide secure walkthroughs, code reviews, architecture deep-dives, or live demonstrations of OpenClaw patterns and compliance flows during any interview or diligence process.
+This public repository serves as a focused portfolio artifact. It emphasizes architecture, rationale, tradeoffs, and explicit relevance to the target role. The core production codebase remains private.
 
-This body of work demonstrates precisely the combination of skills Nous Research seeks in a Full Stack Engineer: broad end-to-end ownership, practical agentic systems experience, production deployment under real constraints, privacy/security rigor, and the high-agency execution needed to ship important products.
+I am fully prepared to provide secure access, code walkthroughs, architecture deep-dives, live demonstrations of agentic workflows with Hermes, or compliance flow reviews during any interview or diligence process.
+
+---
+
+## Contact
 
 **GitHub**: https://github.com/roninhaf  
 **Primary Private Repo**: solid-happiness (Horizon Casting production)  
-**Live Product**: horizoncasting.studio (upon request)
+**Live Product**: horizoncasting.studio
 
-Thank you for reviewing this portfolio. I look forward to contributing to Nous Portal, Hermes Agent, and the broader mission of democratizing world-class intelligence.
+Thank you for reviewing this portfolio. I am excited by the opportunity to contribute to Nous Portal, Hermes Agent, inference services, and the mission of putting powerful, open intelligence in the hands of many.
 
 — Hafid Feghouli  
 Montréal, Québec  
